@@ -29,7 +29,6 @@ The model was trained for 30 epochs using the Adam optimizer.
 
 * **Validation Accuracy:** ~52.4%
 * **Training Plot:**
-    ![Training Progress](training_progress_cnn.png)
 
 ## How to Run
 
