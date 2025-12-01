@@ -1,43 +1,48 @@
-# Protein-Structure-Prediction-ID-CNN
-This project implements a Deep Learning approach to predict protein secondary structure (Helix, Strand, or Coil) from amino acid sequences. It utilizes a 1D Convolutional Neural Network (1D CNN) implemented in MATLAB.
-# Protein Secondary Structure Prediction using 1D CNN
+# Protein Secondary Structure Prediction using 1D Convolutional Neural Networks (CNN)
 
-This project implements a Deep Learning approach to predict protein secondary structure (Helix, Strand, or Coil) from amino acid sequences. It utilizes a **1D Convolutional Neural Network (1D CNN)** implemented in MATLAB.
+This project applies Deep Learning techniques to a classic bioinformatics problem: predicting the secondary structure (Helix, Strand, or Coil) of a protein residue based on its local amino acid sequence.
 
-## Project Overview
+## 🔬 Project Overview
 
-Unlike standard feedforward networks, this 1D CNN scans the protein sequence using convolutional filters to automatically detect local motifs and patterns.
+While traditional methods often use standard feedforward networks, this project utilizes a **1D Convolutional Neural Network (1D CNN)** in MATLAB. The CNN scans the protein sequence using convolutional filters to automatically detect local motifs and chemical patterns without manual feature engineering.
 
-* **Window Size:** 5 residues (Configurable)
-* **Encoding:** 5-bit binary encoding per amino acid
-* **Data Split:** 80% Training, 20% Validation
+### Key Technical Details
+* **Framework:** MATLAB Deep Learning Toolbox
+* **Architecture:** 1D CNN (Convolution -> Batch Norm -> ReLU -> MaxPool)
+* **Input Encoding:** 5-bit binary encoding per amino acid
+* **Window Size:** 5 residues (Scanning local context)
+* **Dataset Split:** 80% Training / 20% Validation
 
-## Network Architecture
+## 🧠 Model Architecture
 
-The model architecture (`trainProteinCNN.m`) consists of:
-1.  **Sequence Input:** Accepts [5x5] matrix input.
-2.  **Conv1D Layer:** 32 filters (size 3) + BatchNorm + ReLU.
-3.  **MaxPooling:** Downsampling by factor of 2.
-4.  **Conv1D Layer:** 64 filters (size 3) + BatchNorm + ReLU.
-5.  **Global Average Pooling:** To reduce feature dimensions.
-6.  **Flatten Layer:** Prepares data for classification.
-7.  **Fully Connected + Softmax:** Output to 3 classes (H, E, C).
+The custom network (`trainProteinCNN.m`) consists of the following layers:
+1.  **Sequence Input:** Accepts [5x5] matrix input [TimeSteps x Channels].
+2.  **Conv1D Layer:** 32 filters (size 3) with Causal Padding.
+3.  **MaxPooling:** Downsamples features to capture dominant motifs.
+4.  **Conv1D Layer:** 64 filters (size 3) to capture higher-level features.
+5.  **Global Average Pooling:** Reduces the temporal dimension.
+6.  **Flatten Layer:** Prepares data for the dense layer.
+7.  **Fully Connected + Softmax:** Outputs probabilities for 3 classes (H, E, C).
 
-## Results
+## 📊 Results
 
 The model was trained for 30 epochs using the Adam optimizer.
 
 * **Validation Accuracy:** ~52.4%
-* **Training Plot:**
+* **Evaluation:** The model was evaluated on a 20% hold-out validation set to ensure generalization.
 
-## How to Run
+*Note: The performance reflects the challenge of using a restricted window size (5 residues). Deeper contexts (larger windows) generally yield higher accuracy.*
 
-1.  Ensure you have `pr_data.m` in the folder.
-2.  Run the master script:
+## 🚀 How to Run
+
+1.  Clone this repository.
+2.  Ensure `pr_data.m` is in the directory.
+3.  Run the master script in MATLAB:
     ```matlab
     run_cnn_experiment
     ```
-3.  This script will automatically:
-    * Prepare the data.
-    * Train the CNN.
+4.  This script will automatically:
+    * Preprocess the raw data.
+    * Define the network architecture.
+    * Train the model.
     * Save the results to `cnn_model.mat`.
